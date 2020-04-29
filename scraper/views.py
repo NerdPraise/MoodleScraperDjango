@@ -109,8 +109,8 @@ def make_payment(request):
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def check_payment(request):
-    response = request.POST
-    print(response.request)
+    response = request.body
+    print(response)
 
     # event = request.POST.get("event")
     # sent_email = request.POST.get("data")
