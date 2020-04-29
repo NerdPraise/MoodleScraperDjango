@@ -110,8 +110,11 @@ def make_payment(request):
 @require_http_methods(["GET", "POST"])
 def check_payment(request):
     if request.POST:
-        print(request.body)
-    
+        print(request.POST.body)
+        event = request.POST.get("event")
+        sent_email = request.POST.get("data")
+        user = get_object_or_404(User, email=sent_email)
+       
     return HttpResponse('success')
 
     # event = request.POST.get("event")
