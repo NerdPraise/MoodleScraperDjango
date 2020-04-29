@@ -1,0 +1,24 @@
+{%if error%}
+<p>{{error}}</p>
+{%endif%}
+
+<h1>Welcome, {{user.username}} Points: {%if user.userprofile.paid %} Unlimited {%else %} {{user.userprofile.points}} {%endif%}</h1>
+{%if course_name%}
+<p>Just went to {{course_name}} :)</p>
+{%endif%}
+{%for course in courses%}
+<h2><a href="{{course.course_url}}" id="{{forloop.counter}}">{{course.course_name}}</a></h2>
+<button onclick="location.href='{%url 'one_course' course.id %}'">Record</button>
+
+{%endfor%}
+
+{%if courses %}
+<button onclick="location.href='allcourse'">Record all</button>
+
+{%else%}
+<form method="post" action="{%url 'student'%}">
+    {%csrf_token%}
+{{form}}
+<input type="submit">
+</form>
+{%endif%}
