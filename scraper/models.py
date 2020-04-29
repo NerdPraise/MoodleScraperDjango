@@ -20,9 +20,16 @@ class User(AbstractUser):
         return self.email
     
 class UserProfile(models.Model):
+    BASIC = 'BC'
+    BIG_BOSS = 'BB'
+    NONE = "NN"
+
+    CHOICE_PLAN = [(BASIC, "BASIC"), (BIG_BOSS, "BIG BOSS"), (NONE,"NONE")]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=1)
     paid = models.BooleanField(default=False)
+    plan = models.CharField(max_length=2, choices=CHOICE_PLAN, default=NONE)
 
 
     def __str__(self):

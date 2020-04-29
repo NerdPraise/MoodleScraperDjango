@@ -40,8 +40,7 @@ class MoodleScraper:
             login_soup = BeautifulSoup(request.content, "html5lib")
             error = login_soup.find("div", {"role":"alert"}).get_text().lower() # get alert error from the page
             if "invalid" in error:
-                print(error)
-                raise Exception(error.upper())
+                return error.upper()
             print("You are logged in")
             self._headers = request.request.headers # Get cookies as it changes upon login
             return self._headers

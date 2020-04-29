@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 from .models import User, MoodleDetails
@@ -23,3 +23,11 @@ class MoodleDetailsForm(forms.ModelForm):
         model = MoodleDetails
         fields = ("matric_num", "password")
 
+class SignInForm(AuthenticationForm):
+    
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class":""}))
+
+    class Meta:
+        model = User
+        
+    

@@ -13,7 +13,12 @@
 {%endfor%}
 
 {%if courses %}
-<button onclick="location.href='allcourse'">Record all</button>
+<form action="{% url 'all_course'%}" method="POST">
+    {%csrf_token%}
+    <input type="checkbox" id="1" name="check-quiz">
+    <input type="submit" value="submit">
+</form>
+
 
 {%else%}
 <form method="post" action="{%url 'student'%}">

@@ -1,7 +1,8 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .scraperfile import MoodleScraper
 from django.contrib.auth import views, login, authenticate
-from .forms import RegisterForm, MoodleDetailsForm
+from .forms import RegisterForm, MoodleDetailsForm, SignInForm
 from .models import Course, User, MoodleDetails
 from django.contrib.auth.decorators import login_required
 from python_paystack.objects.transactions import Transaction
@@ -16,7 +17,7 @@ def index(request):
 
 class SigninView(views.LoginView):
     template_name = "registration/login.html"
-    # authentication_form = form 
+    authentication_form = SignInForm
      
 
 def register(request):
@@ -44,11 +45,12 @@ def student(request):
         if form.is_valid():
             username = form.cleaned_data["matric_num"]
             password = form.cleaned_data["password"]
-            MoodleDetails.objects.create(user=user, username=username, password=password)
-            person = create_session(request)
-            details = person.get_course_links()
-            for index in range(0, len(details), 2):
-                Course.objects.create(user=user, course_name=details[index+1], course_url=details[index])
+            if not user.moodledetails_set.all():
+                MoodleDetails.objects.create(user=user, username=username, password=password)
+                person = create_session(request)
+                details = person.get_course_links()
+                for index in range(0, len(details), 2):
+                    Course.objects.create(user=user, course_name=details[index+1], course_url=details[index])
     else:
         form = MoodleDetailsForm()
     user_courses = Course.objects.filter(user=user)
@@ -65,8 +67,8 @@ def create_session(request):
     username = detail.username
     password = detail.password
     person = person = MoodleScraper(username, password)
-    person.login_student()
-    return person
+    error = person.login_student()
+    return person, error
 
 @login_required()
 def get_a_course_page(request, id):
@@ -76,7 +78,11 @@ def get_a_course_page(request, id):
     if user_points != 0:
         course = get_object_or_404(Course, id=id)
         course_name = (course.course_name)[:6]
-        person = create_session(request)
+        person, error = create_session(request)
+        if "invalid" in error:
+            print(f"Invalid login : {error}" )
+            context["error"] = error
+            return render(request, "scraper/student.html", context)
         person.get_course_pages(course=course_name)
         user.userprofile.points -= 1
         user.userprofile.save()
@@ -86,54 +92,70 @@ def get_a_course_page(request, id):
     return render(request, "scraper/student.html", context)
 
 @login_required()
-def get_all_courses_page(request):
-    user = request.user
-    user_points = user.userprofile.points
-    context={"courses":Course.objects.filter(user=user),"user": user}
-    if user_points != 0:
-        person = create_session(request)
-        person.get_course_pages()
-    else:
-        context["error"] = "No more points, You need to purchase"
-    return render(request, "scraper/student.html", context)
+def get_all_courses_page(request): # Make this a form
+    if request.POST:
+        check = request.POST.get("check-quiz")
+        user = request.user
+        user_points = user.userprofile.points
+        context={"courses":Course.objects.filter(user=user),"user": user}
+        print(check)
+
+        if user_points != 0:
+            person, error = create_session(request)
+            if "invalid" in error:
+                print(f"Invalid login : {error}" )
+                context["error"] = error
+                return render(request, "scraper/student.html", context)
+            if check:
+                person.get_course_pages(True)
+            else:
+                person.get_course_pages()
+        else:
+            context["error"] = "No more points, You need to purchase"
+        return render(request, "scraper/student.html", context)
 
 @login_required()
-def make_payment(request):
+def make_payment(request, id):
     user = request.user
     email = user.email
-    transaction = Transaction(5000, email)
+    if id == 1:
+        transaction = Transaction(50000, email)
+    elif id == 2:
+        transaction = Transaction(70000, email)
     transaction_manager = TransactionsManager()
     transaction = transaction_manager.initialize_transaction('STANDARD', transaction)
     return redirect(transaction.authorization_url)
 
+
 @csrf_exempt
 @require_http_methods(["POST"])
 def check_payment(request):
-    if request.POST:
-        print(request.body)
-        event = request.POST["event"]
-        sent_email = request.POST["data"]
-        print(event, sent_mail)
-        # user = get_object_or_404(User, email=sent_email)
-       
+    if request.method == "POST":
+        response = json.loads(request.body)
+        event = response["event"]
+        status = response["data"]["status"]
+        sent_email = response["data"]["customer"]["email"]
+        plan = response["data"]["plan"]["name"]
+        amount_paid = response["data"]["amount"]
+        try:
+            user = get_object_or_404(User, email=sent_email)
+            if event == "charge.success" and status == "success":
+                print("paid")
+                user.userprofile.points = 10000000000
+                if plan == "basic" and amount_paid == 70000:
+                    user.userprofile.plan = "BC"
+                else:
+                    user.userprofile.plan == "BB"
+                user.userprofile.paid = True
+                user.save()
+        except:
+            HttpResponse(status_code=400)       
+    
     return HttpResponse('success')
 
-    # event = request.POST.get("event")
-    # sent_email = request.POST.get("data")
-    # print(sent_email)
-    # user = get_object_or_404(User, email=sent_email)
-
-    # if event == "charge.success":
-    #     print("paid")
-    #     user.userprofile.points = 10000000000
-    #     user.userprofile.paid = True
-    #     user.save()
-    #     return redirect("student")
-    # else:
-    #     return redirect("failure")
-
 """
-Create error channel when logging in create_session, 
+Make sure redirecting in Studdent doesn't cause errors-checked
+Create error channel when logging in create_session, done, remains test
 """
 
 
