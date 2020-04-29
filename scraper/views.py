@@ -110,17 +110,18 @@ def make_payment(request):
 @require_http_methods(["POST"])
 def check_payment(request):
     event = request.POST.get("event")
-    sent_email = request.POST.get("data")["customer"]["email"]
-    user = get_object_or_404(User, email=sent_email)
+    sent_email = request.POST.get("data")
+    print(sent_email)
+    # user = get_object_or_404(User, email=sent_email)
 
-    if event == "charge.success":
-        print("paid")
-        user.userprofile.points = 10000000000
-        user.userprofile.paid = True
-        user.save()
-        return redirect("student")
-    else:
-        return redirect("failure")
+    # if event == "charge.success":
+    #     print("paid")
+    #     user.userprofile.points = 10000000000
+    #     user.userprofile.paid = True
+    #     user.save()
+    #     return redirect("student")
+    # else:
+    #     return redirect("failure")
 
 """
 Create error channel when logging in create_session, 
