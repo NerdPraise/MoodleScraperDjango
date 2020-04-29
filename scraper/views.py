@@ -112,7 +112,7 @@ def check_payment(request):
     if request.POST:
         print(request.body)
     
-    return redirect("/")
+    return HttpResponse('success')
 
     # event = request.POST.get("event")
     # sent_email = request.POST.get("data")
