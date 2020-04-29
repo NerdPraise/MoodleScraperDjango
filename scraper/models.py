@@ -31,7 +31,7 @@ class UserProfile(models.Model):
 
 class Course(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    course_name = models.CharField(max_length=50)
+    course_name = models.CharField(max_length=80)
     course_url = models.URLField(max_length=1500)
     refresh_time = models.DateTimeField(default=timezone.now)
 
