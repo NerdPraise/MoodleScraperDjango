@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from python_paystack.objects.transactions import Transaction
 from python_paystack.managers import TransactionsManager
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -105,6 +106,7 @@ def make_payment(request):
     transaction = transaction_manager.initialize_transaction('STANDARD', transaction)
     return redirect(transaction.authorization_url)
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def check_payment(request):
     event = request.POST.get("event")
@@ -124,3 +126,5 @@ def check_payment(request):
 """
 Create error channel when logging in create_session, 
 """
+
+
