@@ -107,11 +107,12 @@ def make_payment(request):
     return redirect(transaction.authorization_url)
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["GET", "POST"])
 def check_payment(request):
-    event = request.POST.get("event")
-    sent_email = request.POST.get("data")
-    print(sent_email)
+    print(request.POST)
+    # event = request.POST.get("event")
+    # sent_email = request.POST.get("data")
+    # print(sent_email)
     # user = get_object_or_404(User, email=sent_email)
 
     # if event == "charge.success":
