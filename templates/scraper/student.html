@@ -1,29 +1,231 @@
-{%if error%}
-<p>{{error}}</p>
-{%endif%}
+{%extends "base.html"%}
 
-<h1>Welcome, {{user.username}} Points: {%if user.userprofile.paid %} Unlimited {%else %} {{user.userprofile.points}} {%endif%}</h1>
-{%if course_name%}
-<p>Just went to {{course_name}} :)</p>
-{%endif%}
-{%for course in courses%}
-<h2><a href="{{course.course_url}}" id="{{forloop.counter}}">{{course.course_name}}</a></h2>
-<button onclick="location.href='{%url 'one_course' course.id %}'">Record</button>
+{%block content%}
 
-{%endfor%}
+<body style="font-family: 'Poppins', sans-serif !important;">
 
-{%if courses %}
-<form action="{% url 'all_course'%}" method="POST">
-    {%csrf_token%}
-    <input type="checkbox" id="1" name="check-quiz">
-    <input type="submit" value="submit">
-</form>
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
+            onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+        <span class="w3-bar-item w3-right">Logo</span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+        <div class="w3-container w3-row">
+            <div class="w3-col s4">
+                <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+            </div>
+            <div class="w3-col s8 w3-bar">
+                <span>Welcome, <strong>{{user.username}}</strong></span><br>
+                <p>Points: {%if user.userprofile.paid %} Unlimited {%else %} {{user.userprofile.points}}{%endif%}
+                </p>
+            </div>
+        </div>
+        <hr>
+        <div class="w3-container">
+            <h5>Dashboard</h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+                onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> 
+                Dashboard</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Notes</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Assignments/Quiz</a>
+
+        </div>
+    </nav>
 
 
-{%else%}
-<form method="post" action="{%url 'student'%}">
-    {%csrf_token%}
-{{form}}
-<input type="submit">
-</form>
-{%endif%}
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+        title="close side menu" id="myOverlay">
+    </div>
+
+
+    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+        
+        <!-- Header -->
+        <header class="w3-container" style="padding-top:22px">
+            <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+        </header>
+
+        <div class="w3-row-padding w3-margin-bottom">
+            <div class="w3-quarter ">
+                <div class="w3-container w3-round w3-card-4 w3-red w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-comment w3-xxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3>52</h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Messages</h4>
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-round w3-card-4 w3-blue w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3>99</h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Views</h4>
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-round w3-card-4 w3-teal w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3>23</h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Shares</h4>
+                </div>
+            </div>
+            <div class="w3-quarter">
+                <div class="w3-container w3-round w3-card-4 w3-orange w3-text-white w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+                    <div class="w3-right">
+                        <h3>50</h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Users</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class=" w3-margin-bottom w3-row-padding">
+            <div class="header w3-xxlarge">
+                MY COURSES
+            </div>         
+               
+            <div class="w3-center">
+                {%if error%}
+                <p class="w3-text-red">{{error}}</p>
+                {%endif%}
+                {%if course_name%}
+            <p class="w3-text-pink">Just went to {{course_name}} 😊</p>
+            {%endif%}</div>
+            {%for course in courses%}
+            <div class="">
+                <div class="w3-half w3-margin-bottom w3-padding-small" >
+                    <div class="w3-container w3-round w3-card-4  w3-padding-small">
+                        <div class="w3-left">
+                            <h5 id="{{forloop.counter}}" style="font-size: 1em;"><a href="{{course.course_url}}">{{course.course_name |truncatechars:35}}</a></h5>
+                        </div>
+                        <div class="w3-right">
+                            <button class="w3-button" onclick="location.href='{%url 'one_course' course.id %}';"
+                                type="button">Record</button>
+                        </div>
+                        <div class="w3-clear"></div>
+
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="w3-clear"></div>
+
+
+            {%if courses %}
+            <div class="w3-center  w3-margin-top">
+                <form action="{% url 'all_course'%}" method="POST">
+                    {%csrf_token%}
+                    <input type="checkbox" id="1" disabled name="check-quiz" class="w3-check"> Check (Quizzes /
+                    Assignment)<br>
+                    <button class="w3-button w3-card" type="button">Record all</button>
+                </form>
+            </div>
+            {%else%}
+            <div class="w3-center w3-margin-bottom jagged w3-padding  ">
+                <p>You don't have any courses yet, touch her 👀<i class="fa fa-long-arrow-down  w3-text-pink"></i>
+                </p>
+                <button onclick="document.getElementById('id01').style.display='block'"
+                    class="w3-button w3-pink w3-round-large w3-large">Click Me</button>
+            </div>
+            <div id="id01" class="w3-modal">
+                <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom" style="max-width:300px">
+
+                    <div class="w3-center"><br>
+                        <span onclick="document.getElementById('id01').style.display='none'"
+                            class="w3-button w3-text-red w3-xlarge w3-transparent w3-display-topright"
+                            title="Close Modal">×</span>
+                    </div>
+
+                    <form class="w3-container" method="post" action="{%url 'student'%}">
+                        {%csrf_token%}
+                        <div class="w3-section">
+                            {{form}}
+                            <button class="w3-button w3-block w3-pink w3-section w3-padding"
+                                type="submit">Login</button>
+                        </div>
+                    </form>
+
+                    <div class="w3-container w3-border-top w3-padding-16 w3-pink">
+                        <button onclick="document.getElementById('id01').style.display='none'" type="button"
+                            class="w3-button w3-light-grey">Cancel</button>
+                        <span class="w3-right w3-padding w3-hide-small">Forgot <a href="#">password?</a></span>
+                    </div>
+
+                </div>
+            </div>
+            {%endif%}
+            <div class="w3-container">
+                <div class="w3-container">
+                    <h5>Recent Comments</h5>
+                    <div class="w3-row">
+                        <div class="w3-col m2 text-center">
+                            <img class="w3-circle" src="/w3images/avatar3.png" style="width:96px;height:96px">
+                        </div>
+                        <div class="w3-col m10 w3-container">
+                            <h4>Samuel <span class="w3-opacity w3-medium">Apr 29, 2020, 9:12 PM</span></h4>
+                            <p>Keep up the GREAT work! I am cheering for you!! I love you, bro. No homo</p><br>
+                        </div>
+                    </div>
+        
+        
+                    <!-- Footer -->
+                    <footer class="w3-container w3-padding-16 w3-light-grey">
+                        <h4>ENJOY</h4>
+                        <p>Developed for CU Students</a></p>
+                    </footer>
+                </div>
+                
+            </div>
+            
+        </div>
+        <hr>
+
+
+        
+    </div>
+
+
+    <script>
+        // Get the Sidebar
+        var mySidebar = document.getElementById("mySidebar");
+
+        // Get the DIV with overlay effect
+        var overlayBg = document.getElementById("myOverlay");
+
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+    </script>
+
+
+</body>
+
+{%endblock content%}

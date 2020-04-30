@@ -45,9 +45,16 @@ def student(request):
         if form.is_valid():
             username = form.cleaned_data["matric_num"]
             password = form.cleaned_data["password"]
-            if not user.moodledetails_set.all():
+            context = {}
+            try:
+                MoodleDetails.objects.get(user=user)
+            except MoodleDetails.DoesNotExist:
                 MoodleDetails.objects.create(user=user, username=username, password=password)
-                person = create_session(request)
+                person, error = create_session(request)
+                if "invalid" in error:
+                    print(f"Invalid login : {error}" )
+                    context["error"] = error
+                    return render(request, "scraper/student.html", context)
                 details = person.get_course_links()
                 for index in range(0, len(details), 2):
                     Course.objects.create(user=user, course_name=details[index+1], course_url=details[index])
@@ -113,6 +120,20 @@ def get_all_courses_page(request): # Make this a form
         else:
             context["error"] = "No more points, You need to purchase"
         return render(request, "scraper/student.html", context)
+
+
+def download_course(request, id):
+    course = course = get_object_or_404(Course, id=id)
+    course_name = (course.course_name)[:6]
+    person, error = create_session()
+    context={"courses":Course.objects.filter(user=user),"user": user}
+    if "invalid" in error:
+        print(f"Invalid login : {error}" )
+        context["error"] = error
+        return render(request, "scraper/student.html", context)
+    person.download_course(course_name)
+    return render(request, "scraper/student.html", context)
+
 
 @login_required()
 def make_payment(request, id):

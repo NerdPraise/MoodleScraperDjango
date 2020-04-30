@@ -16,8 +16,8 @@ class RegisterForm(UserCreationForm):
 
 
 class MoodleDetailsForm(forms.ModelForm):
-    matric_num = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput())
+    matric_num = forms.CharField(widget=forms.TextInput(attrs={'class': "w3-input w3-border w3-margin-bottom w3-round", "placeholder":"Matric Number"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class":"w3-input w3-border w3-round","placeholder":"Password"}))
 
     class Meta:
         model = MoodleDetails

@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import os
+import re
 
 
 class MoodleScraper:
@@ -122,8 +123,66 @@ class MoodleScraper:
         #     fileee.close()
         
    
-    def download_course_file(self):
-        pass
+    def get_download_links(self, course):
+        username = self._login_data["username"]
+        with open(f"{username}-course.txt", "r") as user_courses:
+            data = user_courses.read().splitlines(False)
+            for index in range(1, len(data), 2):
+                if course in data[index]:
+                    course_link = data[index-1]
+                    
+                    break
+        
+        request = self._session.get(course_link, headers=self._headers, allow_redirects=True)
+        dwnld_soup = BeautifulSoup(request.content, "html5lib")
+        sections = dwnld_soup.find_all("li", {"class":"section"})
+
+        with open(f"{username}-{course}.txt", "w") as course_link:
+            for section in sections:
+                head_with_links = section.find_all("div", {"class":"activityinstance"})
+                for head in head_with_links:
+                    link = head.find("a")["href"]
+                    name = head.find("span", class_="instancename").next_element
+                    
+                    course_link.write(link + "\n" + name + "\n") 
+ 
+
+    def download_course_file(self, course):
+        username = self._login_data["username"]
+        p = Path(f"{username}-{course}.txt").exists()
+        if not p:
+            self.get_download_links(course)
+        statime = time.time()
+        if __name__ == "__main__":
+            with Pool() as p:  
+                with open(f"{username}-{course}.txt", "r") as course_link:
+                    data = course_link.read().splitlines(False)[::2]
+                    p.map(self.download, data)
+        print(f"Process done {time.time()-statime}")
+
+    def _is_downloadable(self, url):
+        """Does the url contain a downloadable resource"""
+        response = self._session.get(url, allow_redirects=True, headers=self._headers)
+        header = response.headers
+        content_type = header.get('content-type')
+        if 'text' in content_type.lower():
+            return False
+        if 'html' in content_type.lower():
+            return False
+        return response
+
+    def download(self, url):
+        response = self._is_downloadable(url)
+        if response:
+            name = response.headers.get('content-disposition')
+            fname = re.findall('filename=(.+)', name)
+            if len(fname) != 0:
+                filename = fname[0]
+                print(filename)
+            else :
+                filename = "Lecture note"
+            with open(filename, 'wb') as files:
+                files.write(response.content)
 
 
     def end_process(self):
