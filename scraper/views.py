@@ -1,4 +1,5 @@
 import json
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from .scraperfile import MoodleScraper
 from django.contrib.auth import views, login, authenticate
@@ -63,11 +64,15 @@ def student(request):
     else:
         form = MoodleDetailsForm()
     user_courses = Course.objects.filter(user=user)
+    user_course_one = [course for course in user_courses[::2]]
+    print(user_course_one)
+    user_course_two = [course for course in user_courses[1::2]]
     last_login = user.last_login
     last_login = last_login.strftime("%b %d, %Y")
     print(last_login)
     context = {
-        "courses":user_courses,
+        "course_one":user_course_one,
+        "course_two":user_course_two,
         "user": user,
         "form":form,
         "last_login":last_login,
@@ -87,22 +92,20 @@ def create_session(request):
 def get_a_course_page(request, id):
     user = request.user
     user_points = user.userprofile.points
-    context={"courses":Course.objects.filter(user=user),"user": user}
     if user_points != 0:
         course = get_object_or_404(Course, id=id)
         course_name = (course.course_name)[:6]
         person, error = create_session(request)
         if "invalid" in error:
-            print(f"Invalid login : {error}" )
-            context["error"] = error
-            return render(request, "scraper/student.html", context)
+            data = {"error":error}
+            return JsonResponse(data)           
         person.get_course_pages(course=course_name)
         user.userprofile.points -= 1
         user.userprofile.save()
-        context["course_name"] = course.course_name
+        data = {"success":f"Just went to {course.course_name}"}
     else:
-        context["error"] = "No more points, You need to purchase"
-    return render(request, "scraper/student.html", context)
+        data = {"error":"No more points, You need to purchase"}
+    return JsonResponse(data)
 
 @login_required()
 def get_all_courses_page(request): # Make this a form
@@ -180,11 +183,8 @@ def check_payment(request):
     
     return HttpResponse('success')
 
-
-# Automation
-
-
-
+def show_download(request):
+    pass
 
 """
 Make sure redirecting in Studdent doesn't cause errors-checked

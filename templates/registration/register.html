@@ -1,6 +1,6 @@
 {%extends 'base.html'%}
 {%load static%}
-
+{%block title%} <title>Moodle Attendance | Register</title>{%endblock title%}
 {%block stylesheet%}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css'%}" />
@@ -18,15 +18,14 @@
             {%for field in form %}
             <div class="username">
                 {{field}}
-                {{field.error}}
-
             </div>
+            <p class="w3-text-red">{{field.errors}}</p>
             {%endfor%}
         </div>
-        <button class="signin-button">Login</button>
+        <button class="signin-button">Sign Up</button>
 
         <div class="link">
-            <a href="{%url 'register'%}">Sign up</a>
+            <a href="{%url 'login'%}">Login</a>
         </div>
     </div>
     </body>

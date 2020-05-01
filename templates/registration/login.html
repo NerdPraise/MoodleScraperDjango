@@ -1,17 +1,17 @@
 {%extends 'base.html'%}
 {%load static%}
-
+{%block title%} <title>Moodle Attendance | Login</title>{%endblock title%}
 {%block stylesheet%}
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{% static 'css/login.css'%}" />
 {%endblock%}
 {%block content%}
-<form method="post" action="{%url 'login'%}">
-    {%csrf_token%}
     <div class="login-div">
         {%for error in form.non_field_errors %}
         <p class="w3-text-red">{{error}}</p>
         {%endfor%}
+        <form method="post" action="{%url 'login'%}">
+            {%csrf_token%}
         <div class="logo"></div>
         <div class="title">Welcome back</div>
         <div class="fields">
