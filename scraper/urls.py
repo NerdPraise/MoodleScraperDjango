@@ -13,6 +13,5 @@ urlpatterns = [
     path("student/pay/<int:id>", views.make_payment, name="payment"),
     path("student/paid", views.check_payment, name="paid"),
     path("student/dwnld-<int:id>", views.download_course, name="download"),
-    path("course-download", views.show_download, name="download_page")
     
 ]

@@ -209,7 +209,7 @@
 
                 <div class="w3-center clear w3-padding-64">
                     <div class="lds-dual-ring"></div>
-                    <div class="error-text"></div>
+                    <div class="animate-bottom error-text"></div>
 
                 </div>
                 <div class="w3-clear"></div>
@@ -267,6 +267,7 @@
         $.ajax({
             url: course_url,
             data: {},
+            dataType: 'json',
             success: function (data) {
                 if (data.error) {
                     $(".lds-dual-ring").css("display", "none")
@@ -275,6 +276,10 @@
                     $(".lds-dual-ring").css("display", "none")
                     $(".error-text").text(data.success + "🙌")
                 }
+            },
+            error: function(){
+                $(".lds-dual-ring").css("display", "none")
+                $(".error-text").text("Something went wrong, Reload your page")
             }
         })
     })
@@ -291,9 +296,11 @@
         $(".modal").css("display", "block")
         var button_id = $(this).attr("id")
         button_id = button_id.toString()
+        $(".error-text").text("It takes a while if your connection is low, Just chill out 😎🍷🥂")
         $.ajax({
             url: "student/dwnld-" + button_id,
             data: {},
+            dataType: 'json',
             success: function (data) {
                 if (data.error) {
                     $(".lds-dual-ring").css("display", "none")

@@ -180,8 +180,6 @@ def check_payment(request):
     
     return HttpResponse('success')
 
-def show_download(request):
-    pass
 
 """
 Make sure redirecting in Studdent doesn't cause errors-checked

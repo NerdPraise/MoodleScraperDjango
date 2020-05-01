@@ -338,14 +338,15 @@ a {
   .lds-dual-ring:after {
     content: " ";
     display: block;
-    width: 64px;
-    height: 64px;
+    width: 90px;
+    height: 90px;
     margin: 8px;
     border-radius: 50%;
-    border: 6px solid pink;
-    border-color: pink transparent pink transparent;
+    border: 6px solid rgb(247, 130, 149);
+    border-color: rgb(247, 130, 149) transparent rgb(247, 130, 149) transparent;
     animation: lds-dual-ring 1.2s linear infinite;
   }
+
   @keyframes lds-dual-ring {
     0% {
       transform: rotate(0deg);
@@ -355,3 +356,20 @@ a {
     }
   }
   
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 5s;
+    animation-name: animatebottom;
+    animation-duration: 5s;
+  }
+  
+  @-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 } 
+    to { bottom:0px; opacity:1 }
+  }
+  
+  @keyframes animatebottom { 
+    from{ bottom:-100px; opacity:0 } 
+    to{ bottom:0; opacity:1 }
+  }
