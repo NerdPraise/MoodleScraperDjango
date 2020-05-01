@@ -338,8 +338,8 @@ a {
   .lds-dual-ring:after {
     content: " ";
     display: block;
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     margin: 8px;
     border-radius: 50%;
     border: 6px solid rgb(247, 130, 149);
