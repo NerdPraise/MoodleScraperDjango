@@ -101,7 +101,7 @@ a i {
 
 .blurbs hr {
     border: 0.7px solid #eee;
-    
+    overflow: hidden;
 }
 
 .pd-l20 {

@@ -30,10 +30,10 @@
                 <div class="togglebtn rest"><a onclick="toggleNav()">☰</a></div>
                 <div class="othnav rest">
                     <ul style="margin:0; float: right;">
-                        <li>INTERNSHIP ID: SNG-02675</li>
-                        <li>Praiseajayi2@gmail.com</li>
+                        <li>{{user.email}}</li>
                         <li>Actions </li>
-                        <li><button class="btn blue" type="submit">LOG OUT</button> </li>
+                        <li><button class="btn blue" onclick="location.href='{%url 'logout'%}'" type="submit">LOG
+                                OUT</button> </li>
                     </ul>
 
                 </div>
@@ -51,8 +51,8 @@
                                     <div class="icon quarter"><i class="pe-7s-hammer"
                                             style="color:orange; font-size: 40px; font-weight: 700;"></i></div>
                                     <div class="blb-text rest">
-                                        <p style="font-size: 16px;">Current Stage</p>
-                                        <p class="blurb-num">4</p>
+                                        <p style="font-size: 16px;">Last login</p>
+                                        <p class="blurb-num">{{last_login}}</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -67,8 +67,8 @@
                                             style="color:#87cb16!important; font-size: 40px; font-weight: 700;"></i>
                                     </div>
                                     <div class="blb-text rest">
-                                        <p style="font-size: 16px;">Last login</p>
-                                        <p class="blurb-num">{{last_login}}</p>
+                                        <p style="font-size: 16px;">Current Stage</p>
+                                        <p class="blurb-num">4</p>
                                     </div>
                                 </div>
                                 <hr>
@@ -134,9 +134,10 @@
                                     {%for course in course_one%}
                                     <li>
                                         <div class="listitem">
-                                            <p id="{{forloop.counter}}" style="font-size: 1em;">
-                                                <a href="{{course.course_url}}"><strong>{{course.course_name |truncatechars:35}}</strong>
-                                                </a></p>
+                                            <p id="{{course.id}}" course-url="{%url 'one_course' course.id %}"
+                                                style="font-size: 1em;">
+                                                <strong>{{course.course_name |truncatechars:35}}</strong>
+                                            </p>
                                             <small>Deadline: 24/04/2020 12:00 AM</small>
                                             <div>
                                                 <button class="blue badges recBtn" type="button"
@@ -166,15 +167,15 @@
                                     {%for course in course_two%}
                                     <li>
                                         <div class="listitem">
-                                            <p id="{{forloop.counter}}" style="font-size: 1em;">
-                                                <a href="{{course.course_url}}"><strong>{{course.course_name |truncatechars:45}}</strong>
-                                                </a></p>
+                                            <p id="{{course.id}}" course-url="{%url 'one_course' course.id %}"
+                                                style="font-size: 1em;">
+                                                <strong>{{course.course_name |truncatechars:55}}</strong>
+                                            </p>
                                             <small class="d">Deadline: 24/04/2020 12:00 AM</small>
                                             <div>
-                                                <button class="closed badges recBtn" id="{{course.id}}" 
+                                                <button class="closed badges recBtn" id="{{course.id}}"
                                                     type="button">Record</button>
-                                                <button class="orange badges"
-                                                    onclick="location.href='{%url 'one_course' course.id %}';"
+                                                <button class="orange badges dwnBtn" id="{{course.id}}"
                                                     type="button">Download</button>
                                             </div>
                                         </div>
@@ -203,16 +204,10 @@
         {%endif%}
 
 
-
-
-
-
-
         <div id="id01" class="w3-modal modal">
-            <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom"
-                style="width:400px; height: 400px;">
+            <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom" style="width:400px; height: 400px;">
 
-                <div class="w3-center w3-padding-64">
+                <div class="w3-center clear w3-padding-64">
                     <div class="lds-dual-ring"></div>
                     <div class="error-text"></div>
 
@@ -221,9 +216,8 @@
 
 
 
-                <div class="w3-container w3-padding-16" style="bottom:0; position:absolute;" >
-                    <button onclick="document.getElementById('id01').style.display='none'" type="button"
-                        class="w3-button w3-light-grey">Cancel</button>
+                <div class="w3-container w3-padding-16" style="bottom:0; position:absolute;">
+                    <button class="close" type="button" class="w3-button w3-light-grey">Cancel</button>
                 </div>
             </div>
         </div>
@@ -267,20 +261,47 @@
 
     $(".recBtn").click(function () {
         $(".modal").css("display", "block")
-        var button_id = $(this).attr("id")
-        button_id = button_id.toString()
+        var btn_id = $(this).attr("id")
+        btn_id = btn_id.toString()
+        let course_url = $("p#" + btn_id).attr("course-url")
         $.ajax({
-            url: '/student/course/' + button_id,
+            url: course_url,
             data: {},
             success: function (data) {
                 if (data.error) {
                     $(".lds-dual-ring").css("display", "none")
                     $(".error-text").text(data.error)
-                } else if (data.success){
+                } else if (data.success) {
                     $(".lds-dual-ring").css("display", "none")
                     $(".error-text").text(data.success + "🙌")
                 }
+            }
+        })
+    })
 
+
+    $(".close").click(function () {
+        $(".error-text").text("")
+        $(".lds-dual-ring").css("display", "inline-block")
+        $(".modal").css("display", "none")
+
+    })
+
+    $(".dnwBtn").click(function () {
+        $(".modal").css("display", "block")
+        var button_id = $(this).attr("id")
+        button_id = button_id.toString()
+        $.ajax({
+            url: "student/dwnld-" + button_id,
+            data: {},
+            success: function (data) {
+                if (data.error) {
+                    $(".lds-dual-ring").css("display", "none")
+                    $(".error-text").text(data.error)
+                } else if (data.success) {
+                    $(".lds-dual-ring").css("display", "none")
+                    $(".error-text").text(data.success + "🙌")
+                }
             }
         })
     })

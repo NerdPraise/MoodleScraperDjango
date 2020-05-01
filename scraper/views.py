@@ -65,7 +65,6 @@ def student(request):
         form = MoodleDetailsForm()
     user_courses = Course.objects.filter(user=user)
     user_course_one = [course for course in user_courses[::2]]
-    print(user_course_one)
     user_course_two = [course for course in user_courses[1::2]]
     last_login = user.last_login
     last_login = last_login.strftime("%b %d, %Y")
@@ -114,7 +113,6 @@ def get_all_courses_page(request): # Make this a form
         user = request.user
         user_points = user.userprofile.points
         context={"courses":Course.objects.filter(user=user),"user": user}
-        print(check)
 
         if user_points != 0:
             person, error = create_session(request)
@@ -134,14 +132,13 @@ def get_all_courses_page(request): # Make this a form
 def download_course(request, id):
     course = course = get_object_or_404(Course, id=id)
     course_name = (course.course_name)[:6]
-    person, error = create_session()
-    context={"courses":Course.objects.filter(user=user),"user": user}
+    person, error = create_session(request)
     if "invalid" in error:
-        print(f"Invalid login : {error}" )
-        context["error"] = error
-        return render(request, "scraper/student.html", context)
-    person.download_course(course_name)
-    return render(request, "scraper/student.html", context)
+        data = {"error":error}
+        return JsonResponse(data)
+    person.download_course_file(course_name)
+    data = {"success":"Your notes are downloaded"}
+    return JsonResponse(data)
 
 
 @login_required()
