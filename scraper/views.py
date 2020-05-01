@@ -142,13 +142,14 @@ def download_course(request, id):
 
 
 @login_required()
-def make_payment(request, id):
+def make_payment(request):
     user = request.user
     email = user.email
-    if id == 1:
-        transaction = Transaction(50000, email)
-    elif id == 2:
-        transaction = Transaction(70000, email)
+    # if id == 1:
+    transaction = Transaction(50000, email)
+    # elif id == 2:
+    #     transaction = Transaction(70000, email)
+
     transaction_manager = TransactionsManager()
     transaction = transaction_manager.initialize_transaction('STANDARD', transaction)
     return redirect(transaction.authorization_url)

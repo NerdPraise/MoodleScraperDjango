@@ -222,11 +222,12 @@
             </div>
         </div>
 
-
+        
 
 
         <div class="footer">
             <h4>ENJOY</h4>
+            <button class="btn blue" onclick="location.href='{%url 'payment'%}'" type="submit">Buy Basic 😘</button>
             <p>Developed for CU Students</a></p>
         </div>
     </div>
@@ -277,7 +278,7 @@
                     $(".error-text").text(data.success + "🙌")
                 }
             },
-            error: function(){
+            error: function () {
                 $(".lds-dual-ring").css("display", "none")
                 $(".error-text").text("Something went wrong, Reload your page")
             }
