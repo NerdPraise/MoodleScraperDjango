@@ -1,8 +1,9 @@
 {%extends "base.html"%}
-
+{%load static%}
 {%block content%}
 
-<body style="font-family: 'Poppins', sans-serif !important;">
+<body
+    style="font-family: 'Poppins', sans-serif !important; background: url({% static 'images/ff.jpg' %}) no-repeat center fixed; background-size:contain;">
 
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
         <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey"
@@ -11,10 +12,12 @@
     </div>
 
     <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    <nav class="w3-sidebar w3-text-white w3-collapse w3-white w3-animate-left"
+        style="z-index:3;width:300px; background:url({%static 'images/sidebar.jpg' %}) no-repeat center; background-size:cover;"
+        id="mySidebar"><br>
         <div class="w3-container w3-row">
             <div class="w3-col s4">
-                <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+                😊✌🙌🥰
             </div>
             <div class="w3-col s8 w3-bar">
                 <span>Welcome, <strong>{{user.username}}</strong></span><br>
@@ -45,7 +48,7 @@
 
 
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-        
+
         <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
             <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
@@ -54,22 +57,22 @@
         <div class="w3-row-padding w3-margin-bottom">
             <div class="w3-quarter ">
                 <div class="w3-container w3-round w3-card-4 w3-red w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-comment w3-xxlarge"></i></div>
+                    <div class="w3-left"><i class="fa fa-eye w3-xxlarge"></i></div>
                     <div class="w3-right">
-                        <h3>52</h3>
+                        <h3>{{last_login}}</h3>
                     </div>
                     <div class="w3-clear"></div>
-                    <h4>Messages</h4>
+                    <h4>Last login</h4>
                 </div>
             </div>
             <div class="w3-quarter">
                 <div class="w3-container w3-round w3-card-4 w3-blue w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                    <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
                     <div class="w3-right">
                         <h3>99</h3>
                     </div>
                     <div class="w3-clear"></div>
-                    <h4>Views</h4>
+                    <h4>Quizzes</h4>
                 </div>
             </div>
             <div class="w3-quarter">
@@ -97,21 +100,22 @@
         <div class=" w3-margin-bottom w3-row-padding">
             <div class="header w3-xxlarge">
                 MY COURSES
-            </div>         
-               
+            </div>
+
             <div class="w3-center">
                 {%if error%}
                 <p class="w3-text-red">{{error}}</p>
                 {%endif%}
                 {%if course_name%}
-            <p class="w3-text-pink">Just went to {{course_name}} 😊</p>
-            {%endif%}</div>
+                <p class="w3-text-pink">Just went to {{course_name}} 😊</p>
+                {%endif%}</div>
             {%for course in courses%}
             <div class="">
-                <div class="w3-half w3-margin-bottom w3-padding-small" >
-                    <div class="w3-container w3-round w3-card-4  w3-padding-small">
+                <div class="w3-half w3-margin-bottom w3-padding-small">
+                    <div class="w3-container w3-white w3-round w3-card-4  w3-padding-small">
                         <div class="w3-left">
-                            <h5 id="{{forloop.counter}}" style="font-size: 1em;"><a href="{{course.course_url}}">{{course.course_name |truncatechars:35}}</a></h5>
+                            <h5 id="{{forloop.counter}}" style="font-size: 1em;"><a
+                                    href="{{course.course_url}}">{{course.course_name |truncatechars:35}}</a></h5>
                         </div>
                         <div class="w3-right">
                             <button class="w3-button" onclick="location.href='{%url 'one_course' course.id %}';"
@@ -134,6 +138,14 @@
                     Assignment)<br>
                     <button class="w3-button w3-card" type="button">Record all</button>
                 </form>
+            </div>
+            <div class="w3-container">
+                <button class="w3-button w3-green w3-card" onclick="location.href='student/pay/1';" type="button">Buy
+                    Basic 😊</button>
+                    
+                    <div class="w3-right">
+                <button class="w3-button w3-orange w3-card" onclick="location.href='student/pay/2';" type="button">Buy
+                    Big Boss 😁</button></div>
             </div>
             {%else%}
             <div class="w3-center w3-margin-bottom jagged w3-padding  ">
@@ -169,8 +181,8 @@
                 </div>
             </div>
             {%endif%}
-            <div class="w3-container">
-                <div class="w3-container">
+            <div class="w3-container ">
+                <div class="w3-container ">
                     <h5>Recent Comments</h5>
                     <div class="w3-row">
                         <div class="w3-col m2 text-center">
@@ -181,22 +193,19 @@
                             <p>Keep up the GREAT work! I am cheering for you!! I love you, bro. No homo</p><br>
                         </div>
                     </div>
-        
-        
-                    <!-- Footer -->
-                    <footer class="w3-container w3-padding-16 w3-light-grey">
-                        <h4>ENJOY</h4>
-                        <p>Developed for CU Students</a></p>
-                    </footer>
                 </div>
-                
+
+
+                <!-- Footer -->
+                <footer class="w3-container w3-padding-16 w3-light-grey">
+                    <h4>ENJOY</h4>
+                    <p>Developed for CU Students</a></p>
+                </footer>
+
+
             </div>
-            
+
         </div>
-        <hr>
-
-
-        
     </div>
 
 

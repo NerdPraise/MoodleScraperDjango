@@ -14,3 +14,9 @@ h1, h2, h3, h4, h5, h6 {
 a {
     text-decoration: none;
 }
+
+.concave {
+    border-top-left-radius: 50% 30% !important;
+    border-top-right-radius: 50% 30% !important;
+    color:green;
+}

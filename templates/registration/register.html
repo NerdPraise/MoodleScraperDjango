@@ -1,6 +1,35 @@
+{%extends 'base.html'%}
+{%load static%}
+
+{%block stylesheet%}
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css'%}" />
+{%endblock%}
+{%block content%}
 <form method="post" action="{%url 'register'%}">
     {%csrf_token%}
-    {{form.as_p}}
-    <input type="submit">
+    <div class="login-div">
+        {%for error in form.non_field_errors %}
+        <p class="w3-text-red">{{error}}</p>
+        {%endfor%}
+        <div class="logo"></div>
+        <div class="title">Sign up</div>
+        <div class="fields">
+            {%for field in form %}
+            <div class="username">
+                {{field}}
+                {{field.error}}
+
+            </div>
+            {%endfor%}
+        </div>
+        <button class="signin-button">Login</button>
+
+        <div class="link">
+            <a href="{%url 'register'%}">Sign up</a>
+        </div>
+    </div>
+    </body>
 
 </form>
+{%endblock content%}

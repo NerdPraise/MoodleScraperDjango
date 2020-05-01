@@ -5,10 +5,10 @@ from .models import User, MoodleDetails
 
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField()
-    username = forms.CharField()
-    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class":""}))
-    password2 = forms.CharField(label=_("Password Again"),widget=forms.PasswordInput())
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': "user-input","placeholder":"Email address"}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': "user-input","placeholder":"Username"}))
+    password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class":"pass-input", "placeholder":"Password"}))
+    password2 = forms.CharField(label=_("Password Again"),widget=forms.PasswordInput(attrs={"class":"pass-input", "placeholder":"Password Again"}))
     
     class Meta:
         model = User
@@ -24,8 +24,8 @@ class MoodleDetailsForm(forms.ModelForm):
         fields = ("matric_num", "password")
 
 class SignInForm(AuthenticationForm):
-    
-    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class":""}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': "user-input","placeholder":"Email address"}))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs={"class":"pass-input", "placeholder":"Password"}))
 
     class Meta:
         model = User

@@ -9,6 +9,7 @@ from python_paystack.objects.transactions import Transaction
 from python_paystack.managers import TransactionsManager
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
 
 
 
@@ -46,6 +47,7 @@ def student(request):
             username = form.cleaned_data["matric_num"]
             password = form.cleaned_data["password"]
             context = {}
+            
             try:
                 MoodleDetails.objects.get(user=user)
             except MoodleDetails.DoesNotExist:
@@ -61,10 +63,14 @@ def student(request):
     else:
         form = MoodleDetailsForm()
     user_courses = Course.objects.filter(user=user)
+    last_login = user.last_login
+    last_login = last_login.strftime("%b %d, %Y")
+    print(last_login)
     context = {
         "courses":user_courses,
         "user": user,
-        "form":form
+        "form":form,
+        "last_login":last_login,
     }
     return render(request, "scraper/student.html", context)
 
@@ -73,7 +79,7 @@ def create_session(request):
     detail = MoodleDetails.objects.get(user=user)
     username = detail.username
     password = detail.password
-    person = person = MoodleScraper(username, password)
+    person = MoodleScraper(username, password)
     error = person.login_student()
     return person, error
 
@@ -173,6 +179,12 @@ def check_payment(request):
             HttpResponse(status_code=400)       
     
     return HttpResponse('success')
+
+
+# Automation
+
+
+
 
 """
 Make sure redirecting in Studdent doesn't cause errors-checked

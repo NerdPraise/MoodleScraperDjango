@@ -12,5 +12,6 @@ urlpatterns = [
     path("student/allcourse", views.get_all_courses_page, name="all_course"),
     path("student/pay/<int:id>", views.make_payment, name="payment"),
     path("student/paid", views.check_payment, name="paid"),
-    path("stdent/dwnld-<int:id>", views.download_course, name="download")
+    path("stdent/dwnld-<int:id>", views.download_course, name="download"),
+    
 ]

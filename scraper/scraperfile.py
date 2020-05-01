@@ -3,7 +3,9 @@ from bs4 import BeautifulSoup
 import requests
 import time
 import os
+from multiprocessing import Pool
 import re
+import webbrowser
 
 
 class MoodleScraper:
