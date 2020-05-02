@@ -140,6 +140,7 @@
                                             </p>
                                             <small>Deadline: 24/04/2020 12:00 AM</small>
                                             <div>
+
                                                 <button class="blue badges recBtn" type="button"
                                                     id="{{course.id}}">Record</button>
                                                 <button class=" orange badges"
@@ -152,7 +153,6 @@
 
                                 </ul>
                             </div>
-                            <hr>
                         </div>
                     </div>
                     <!-- FOR POST -->
@@ -190,21 +190,23 @@
             </div>
         </div>
 
-        <button class="closed badges" id="22" type="button">Record</button>
         {%if course_one or course_two %}
-        <div class="w3-center  w3-margin-top">
-            <form action="{% url 'all_course'%}" method="POST">
+        <div class="w3-center  w3-margin-top" >
+            <form action="{% url 'all_course'%}" method="POST" id="post-form">
                 {%csrf_token%}
-                <input type="checkbox" id="1" disabled name="check-quiz" class="w3-check"> Check (Quizzes /
+                <input type="checkbox" id="check" name="check-quiz" class="w3-check"> Check (Quizzes /
                 Assignment)<br>
-                <button class="w3-button w3-card" type="button">Record
-                    all</button>
+                <div {%if not user.userprofile.paid %}class="tooltip"{%endif%}>
+                    <input class="w3-button  w3-card"  value="Record all" type="submit" {%if not user.userprofile.paid%} disabled
+                        {%endif%}>
+                    <span class="tooltiptext" {%if user.userprofile.paid %} style="display: none;"{%endif%}>Pay to unlock</span>
+                </div>
             </form>
         </div>
         {%endif%}
 
 
-        <div id="id01" class="w3-modal modal">
+        <div id="id01" class="w3-modal modal" style="overflow: auto;">
             <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom" style="width:600px; height: 450px;">
 
                 <div class="w3-center clear w3-padding-64" style="display: none;">
@@ -212,10 +214,10 @@
                     <div class="animate-bottom error-text"></div>
 
                 </div>
-                <div class="payment w3-row-padding w3-center w3-padding">
+                <div class="payment w3-row-padding w3-center w3-padding" style="display: none;">
 
                     <div class="w3-half">
-                        <div class="w3-card w3-container" style="height:350px">
+                        <div class="w3-card w3-container" style="height:350px" >
                             <h3>BASIC</h3><br>
                             <i class="fa fa-css3 w3-margin-bottom w3-text-theme" style="font-size:70px"></i>
                             <button class="btn blue" onclick="location.href='/student/pay/1'" type="submit">Buy Basic
@@ -261,7 +263,6 @@
 
         <div class="footer">
             <h4>ENJOY</h4>
-
             <p>Developed for CU Students</a></p>
         </div>
     </div>
@@ -274,92 +275,9 @@
 {%endblock content%}
 
 {%block javascript%}
-<script>
-    var sidebar = 0
-    function toggleNav() {
-        if (sidebar == 0) {
-            document.getElementById("sidenav").style.width = "260px";
-            document.getElementById("main").style.marginRight = "260px";
-            document.getElementById("main").style.marginLeft = "-260px";
-            document.getElementById("sidehead1").style.display = "block"
-            document.getElementById("sidehead2").style.display = "block"
-        } else {
-            document.getElementById("sidenav").style.width = "0px";
-            document.getElementById("main").style.marginLeft = "0";
-            document.getElementById("main").style.marginRight = "0";
-            document.getElementById("sidehead1").style.display = "none"
-            document.getElementById("sidehead2").style.display = "none"
-        }
-        sidebar = parseInt(document.getElementById("sidenav").style.width)
+<script src="{%static 'js/student.js'%}">
 
-    }
-
-    $(".recBtn").click(function () {
-        $(".payment").css("display", "none")
-        $(".modal").css("display", "block")
-        $(".clear").css("display", "block")
-        $(".lds-dual-ring").css("display", "inline-block")
-        var btn_id = $(this).attr("id")
-        btn_id = btn_id.toString()
-        let course_url = $("p#" + btn_id).attr("course-url")
-        $.ajax({
-            url: course_url,
-            data: {},
-            dataType: 'json',
-            success: function (data) {
-                if (data.error) {
-                    $(".lds-dual-ring").css("display", "none")
-                    $(".error-text").text(data.error)
-                } else if (data.success) {
-                    $(".lds-dual-ring").css("display", "none")
-                    $(".error-text").text(data.success + "🙌")
-                }
-            },
-            error: function () {
-                $(".lds-dual-ring").css("display", "none")
-                $(".error-text").text("Something went wrong, Reload your page")
-            }
-        })
-    })
-
-
-    $(".close").click(function () {
-        $(".error-text").text("")
-        $(".lds-dual-ring").css("display", "none")
-        $(".modal").css("display", "none")
-        $(".clear").css("display", "none")
-        $(".payment").css("display", "none")
-
-    })
-
-    $(".pay").click(function () {
-        $(".modal").css("display", "block")
-        $(".payment").css("display", "block")
-
-
-    })
-
-    $(".dnwBtn").click(function () {
-        $(".modal").css("display", "block")
-        var button_id = $(this).attr("id")
-        button_id = button_id.toString()
-        $(".error-text").text("It takes a while if your connection is low, Just chill out 😎🍷🥂")
-        $.ajax({
-            url: "student/dwnld-" + button_id,
-            data: {},
-            dataType: 'json',
-            success: function (data) {
-                if (data.error) {
-                    $(".lds-dual-ring").css("display", "none")
-                    $(".error-text").text(data.error)
-                } else if (data.success) {
-                    $(".lds-dual-ring").css("display", "none")
-                    $(".error-text").text(data.success + "🙌")
-                }
-            }
-        })
-    })
-
+    
 
 
 //     $('a.menu').bind('click', function(){

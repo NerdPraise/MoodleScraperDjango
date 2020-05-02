@@ -82,13 +82,17 @@ class MoodleScraper:
 
         with open(f"{username}-course.txt", "r") as user_courses:
             data = user_courses.read().splitlines(False)
+            gone_to_list = []
             for index in range(0, len(data), 2):
                 if not course:
-                    print(f"Going to {data[index+1]} section")
+                    word = f"Went to {data[index+1]} section"
+                    gone_to_list.append(word)
                     request = self._session.get(data[index], headers=self._headers)
                     if check and request: # Check for request from either full courses or just particular ones
                         self.check_for_quizzes(username, request)
-                    time.sleep(3)
+                    print(word)
+                    time.sleep(1)
+                    
             
                 if (course):
                     if (course.upper() in data[index+1]):
@@ -97,7 +101,7 @@ class MoodleScraper:
                         if check and request: # Check for request from either full courses or just particular ones
                             self.check_for_quizzes(username, request)
                         break
-            return request
+            return gone_to_list
                 
     def check_for_quizzes(self, username, request):
         """Gets called from get_courses and checks if new assignment is uploaded"""

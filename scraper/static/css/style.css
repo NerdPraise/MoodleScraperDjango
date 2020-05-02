@@ -1,7 +1,8 @@
-body{
-    background-color: rgba(203,203,210,.15);
+body {
+    background-color: rgba(203, 203, 210, .15);
     margin: 0px;
-    font-family:'Roboto', sans-serif;;
+    font-family: 'Roboto', sans-serif;
+    ;
 }
 
 p {
@@ -13,23 +14,22 @@ p {
 }
 
 .main {
-    margin-left:0px;
+    margin-left: 0px;
     box-sizing: border-box;
     transition: margin-right 0.5s;
-    
 }
 
 .mainblrbs {
-    padding:0px 15px;
+    padding: 0px 15px;
 }
 
 a i {
     font-size: 28px;
-    float:left;
-    width:30px;
+    float: left;
+    width: 30px;
     margin-right: 15px;
     line-height: 30px;
-    text-align:center;
+    text-align: center;
 }
 
 .navbar {
@@ -38,7 +38,7 @@ a i {
     width: 100%;
     margin-bottom: 25px;
     border-bottom: 1px solid #ddd;
-    color:#777777
+    color: #777777
 }
 
 .row::after, .row::before {
@@ -48,18 +48,18 @@ a i {
 }
 
 .navelem {
-    padding:15px 15px;
+    padding: 15px 15px;
 }
 
 .quarter {
-    width:24.99999%;
+    width: 24.99999%;
     padding: 0 15px;
     float: left;
-    margin:0px;
+    margin: 0px;
 }
 
 .sidehead {
-    display:none;
+    display: none;
 }
 
 .sidehead li {
@@ -67,13 +67,13 @@ a i {
     font-weight: 600;
     list-style: none;
     text-align: left;
-    color:#fff;
+    color: #fff;
     line-height: 30px;
-    padding:10px 10px;
+    padding: 10px 10px;
 }
 
 .sidehead li:hover, .sidehead li:active {
-    background: hsla(0,0%,100%,.23);
+    background: hsla(0, 0%, 100%, .23);
     border-radius: 5px;
 }
 
@@ -82,21 +82,21 @@ a i {
 }
 
 .sidenav {
-    width:0;
-    right:0;
+    width: 0;
+    right: 0;
     position: fixed;
-    height:100%;
+    height: 100%;
     background: url("../images/sidebar.jpg") center no-repeat;
-    background-size:cover;
-    padding-top:10px;
+    background-size: cover;
+    padding-top: 10px;
     transition: 0.5s;
 }
 
 .blurbs {
     border-radius: .35em;
-    box-shadow: 1px 2px rgba(0,0,0,.05), 0 0 0 1px rgba(63,63,68,.1);
+    box-shadow: 1px 2px rgba(0, 0, 0, .05), 0 0 0 1px rgba(63, 63, 68, .1);
     background-color: #fff;
-    width:100%;
+    width: 100%;
 }
 
 .blurbs hr {
@@ -105,32 +105,32 @@ a i {
 }
 
 .pd-l20 {
-    padding: 0 15px ;
+    padding: 0 15px;
 }
 
 .half {
     float: left;
     width: 50%;
-    margin:0px;
+    margin: 0px;
 }
 
 .tasklist ul, .postlist ul {
-    margin:0px;
-    padding:0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .header {
-    padding:0px;
+    padding: 0px;
 }
 
 .header p {
-    color:rgb(154, 154, 154);
-    margin:0px;
-    padding:0px;
+    color: rgb(154, 154, 154);
+    margin: 0px;
+    padding: 0px;
 }
 
 a {
-    color:inherit;
+    color: inherit;
     text-decoration: none;
 }
 
@@ -148,7 +148,7 @@ h4 {
 
 .listitem {
     padding: 15px;
-    color:rgb(51, 51, 51);
+    color: rgb(51, 51, 51);
 }
 
 .blurb-num {
@@ -156,11 +156,11 @@ h4 {
 }
 
 .footer {
-    margin:12px 0 0 0;
+    margin: 12px 0 0 0;
     text-align: center;
-    background-color:white;
-    width:100%;
-    bottom:0;
+    background-color: white;
+    width: 100%;
+    bottom: 0;
     padding: 15px 0;
     font-size: 14px;
     color: #777777;
@@ -169,68 +169,67 @@ h4 {
 
 small {
     color: rgb(74, 85, 104);
-    font-size:11px;
+    font-size: 11px;
 }
 
 .pstsk {
-    margin-top:15px;
+    margin-top: 15px;
 }
 
 .pd15 {
-    padding: 15px ;
+    padding: 15px;
 }
 
 .blb-text {
     text-align: right;
 }
 
- p strong {
-     font-size: 15px;
- }
+p strong {
+    font-size: 15px;
+}
 
 .blue {
     background-color: #1dc7ea;
-    border:1px solid #1dc7ea;
- }
+    border: 1px solid #1dc7ea;
+}
 
 .orange {
     background-color: #ff9500;
-    border:1px solid #ff9500;
- }
+    border: 1px solid #ff9500;
+}
 
 .closed {
     background-color: palevioletred;
-    border:1px solid palevioletred;
- }
+    border: 1px solid palevioletred;
+}
 
 .badges {
     border-radius: 6px;
     font-size: 8.5px;
-    color:white;
-    padding:4px;
+    color: white;
+    padding: 4px;
     font-weight: 500;
-    margin-right:5px;
+    margin-right: 5px;
     cursor: pointer;
- }
+}
 
-
- .navtext {
+.navtext {
     font-size: 20px;
- }
+}
 
 .othnav {
     display: none;
 }
 
-.othnav li{
+.othnav li {
     color: #777777;
     list-style: none;
     display: inline-block;
-    padding-left:15px;
- }
+    padding-left: 15px;
+}
 
 .togglebtn {
-    display:block;
+    display: block;
     text-align: right;
     font-size: 20px;
     cursor: pointer;
@@ -238,81 +237,71 @@ small {
 
 .btn {
     border-radius: 6px;
-    padding:10px 12px;
-    border:1px solid  #1dc7ea;
-    color:white;
- }
+    padding: 10px 12px;
+    border: 1px solid #1dc7ea;
+    color: white;
+}
 
- @media screen and (min-width:1000px) {
+@media screen and (min-width:1000px) {
     .sidenav {
-        width:260px !important; 
-        left:0;    
+        width: 260px !important;
+        left: 0;
     }
-     
     .main {
-        margin-left:260px !important;
+        margin-left: 260px !important;
         transition: margin-left 0.5s;
-     }
-
+    }
     .othnav, .sidehead {
-         display:block !important;
-         
-     }
-
+        display: block !important;
+    }
     .togglebtn {
-         display:none;
-     }
-     
+        display: none;
+    }
     .rest {
         float: left;
         width: 75%;
-        margin:0px;  
+        margin: 0px;
     }
- }
+}
 
- @media screen and (max-width:900px) {
+@media screen and (max-width:900px) {
     .quarter {
-         width:50%;
-         margin-top:12px;
-     }
-
+        width: 50%;
+        margin-top: 12px;
+    }
     .rest {
         float: left;
         width: 50%;
-        margin:0px;  
+        margin: 0px;
     }
-
-
     .togglebtn {
-        display:block;
-        width:50%;
-     }
- }
-
- @media screen and (max-width:700px) {
-    .quarter, .half {
-        width:100%;
-        margin-top:12px;
+        display: block;
+        width: 50%;
     }
+}
 
+@media screen and (max-width:700px) {
+    .quarter, .half {
+        width: 100%;
+        margin-top: 12px;
+    }
     .navtext {
         width: 90%;
     }
-
     .togglebtn {
-        width:10%;
+        width: 10%;
     }
-
-    .icon{
-        width:50%;
+    .icon {
+        width: 50%;
     }
- }
+}
 
- .md12 {
-     margin-bottom:12px;    
- }
+.md12 {
+    margin-bottom: 12px;
+}
+
 .jagged {
-    border:1px dashed #ccc!important
+    border: 1px dashed #ccc!important
 }
 
 a {
@@ -322,20 +311,22 @@ a {
 .concave {
     border-top-left-radius: 50% 30% !important;
     border-top-right-radius: 50% 30% !important;
-    color:green;
+    color: green;
 }
 
 .errorlist li {
-    color:red;
+    color: red;
 }
 
 /* Loader */
+
 .lds-dual-ring {
     display: inline-block;
     width: 80px;
     height: 80px;
-  }
-  .lds-dual-ring:after {
+}
+
+.lds-dual-ring:after {
     content: " ";
     display: block;
     width: 100px;
@@ -345,31 +336,60 @@ a {
     border: 6px solid rgb(247, 130, 149);
     border-color: rgb(247, 130, 149) transparent rgb(247, 130, 149) transparent;
     animation: lds-dual-ring 1.2s linear infinite;
-  }
+}
 
-  @keyframes lds-dual-ring {
+@keyframes lds-dual-ring {
     0% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
-  .animate-bottom {
+}
+
+.animate-bottom {
     position: relative;
     -webkit-animation-name: animatebottom;
     -webkit-animation-duration: 5s;
     animation-name: animatebottom;
     animation-duration: 5s;
-  }
-  
-  @-webkit-keyframes animatebottom {
-    from { bottom:-100px; opacity:0 } 
-    to { bottom:0px; opacity:1 }
-  }
-  
-  @keyframes animatebottom { 
-    from{ bottom:-100px; opacity:0 } 
-    to{ bottom:0; opacity:1 }
-  }
+}
+
+@-webkit-keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+    to {
+        bottom: 0px;
+        opacity: 1
+    }
+}
+
+@keyframes animatebottom {
+    from {
+        bottom: -100px;
+        opacity: 0
+    }
+    to {
+        bottom: 0;
+        opacity: 1
+    }
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

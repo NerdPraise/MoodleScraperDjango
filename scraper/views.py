@@ -106,25 +106,22 @@ def get_a_course_page(request, id):
 
 @login_required()
 def get_all_courses_page(request): # Make this a form
-    if request.POST:
-        check = request.POST.get("check-quiz")
+    if request.method == "POST":
+        check = request.POST.get("check")
         user = request.user
         user_points = user.userprofile.points
-        context={"courses":Course.objects.filter(user=user),"user": user}
-
         if user_points != 0:
             person, error = create_session(request)
             if "invalid" in error:
-                print(f"Invalid login : {error}" )
-                context["error"] = error
-                return render(request, "scraper/student.html", context)
-            if check:
-                person.get_course_pages(True)
+                data = {"error":error}
+                return JsonResponse(data)
+            if check !="true":
+                data = {"courses_gone" : person.get_course_pages()}
             else:
-                person.get_course_pages()
+                data = {"courses_gone" : person.get_course_pages(True)}
         else:
-            context["error"] = "No more points, You need to purchase"
-        return render(request, "scraper/student.html", context)
+            data = {"error" : "No more points, You need to purchase"}
+        return JsonResponse(data)
 
 
 def download_course(request, id):
