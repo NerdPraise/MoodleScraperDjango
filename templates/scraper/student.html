@@ -24,6 +24,7 @@
 
     <div class="main" id="main">
         <!-- NAV BAR -->
+
         <div class="navbar">
             <div class="row navelem">
                 <div class="navtext quarter">Dashboard</div>
@@ -49,7 +50,8 @@
                             <div class="row" style="padding-bottom: 25px;">
                                 <div class="md12">
                                     <div class="icon quarter"><i class="pe-7s-hammer"
-                                            style="color:orange; font-size: 40px; font-weight: 700;"></i></div>
+                                            style="color:orange; font-size: 40px; font-weight: 700;"></i>
+                                    </div>
                                     <div class="blb-text rest">
                                         <p style="font-size: 16px;">Last login</p>
                                         <p class="blurb-num">{{last_login}}</p>
@@ -80,7 +82,8 @@
                             <div class="row" style="padding-bottom: 25px;">
                                 <div class="md12">
                                     <div class="icon quarter"><i class="pe-7s-graph1"
-                                            style="color:red; font-size: 40px; font-weight: 700;"></i></div>
+                                            style="color:red; font-size: 40px; font-weight: 700;"></i>
+                                    </div>
                                     <div class="blb-text rest">
                                         <p style="font-size: 16px;">Current Stage</p>
                                         <p class="blurb-num">4</p>
@@ -106,21 +109,25 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
 
 
+
             <!-- BODY BLURBS TWO -->
-            {%if course_name%}
-            <div>
-                {%if error%}
-                <p class="w3-text-red">{{error}}</p>
+            
+                {%if course_name%}
+                <div>
+                    {%if error%}
+                    <p class="w3-text-red">{{error}}</p>
+                    {%endif%}
+                    <p class="w3-text-pink">Just went to {{course_name}} 😊</p>
+                </div>
                 {%endif%}
-                <p class="w3-text-pink">Just went to {{course_name}} 😊</p>
-                {%endif%}
-            </div>
             <div class="pstsk row">
+                {%if course_one%}
                 <div class="row">
                     <div class="half pd-l20">
                         <div class="blurbs">
@@ -187,23 +194,36 @@
                         </div>
                     </div>
                 </div>
+                {%endif%}
+                {%if not course_one or not course_two%}
+                <div class="w3-center w3-margin jagged w3-padding  ">
+                    <p>You don't have any courses yet, touch her 👀<i class="fa fa-long-arrow-down  w3-text-pink"></i></p>
+                    <button onclick="document.getElementById('id01').style.display='block'"
+                        class="w3-button w3-pink w3-round-large w3-large">Click Me</button>
+                </div>
+                {%endif%}
             </div>
+            
         </div>
 
+
         {%if course_one or course_two %}
-        <div class="w3-center  w3-margin-top" >
+        <div class="w3-center  w3-margin-top">
             <form action="{% url 'all_course'%}" method="POST" id="post-form">
                 {%csrf_token%}
                 <input type="checkbox" id="check" name="check-quiz" class="w3-check"> Check (Quizzes /
                 Assignment)<br>
-                <div {%if not user.userprofile.paid %}class="tooltip"{%endif%}>
-                    <input class="w3-button  w3-card"  value="Record all" type="submit" {%if not user.userprofile.paid%} disabled
-                        {%endif%}>
-                    <span class="tooltiptext" {%if user.userprofile.paid %} style="display: none;"{%endif%}>Pay to unlock</span>
+                <div {%if not user.userprofile.paid %}class="tooltip" {%endif%}>
+                    <input class="w3-button  w3-card" value="Record all" type="submit" {%if not user.userprofile.paid%}
+                        disabled {%endif%}>
+                    <span class="tooltiptext" {%if user.userprofile.paid %} style="display: none;" {%endif%}>Pay to
+                        unlock</span>
                 </div>
             </form>
         </div>
         {%endif%}
+
+
 
 
         <div id="id01" class="w3-modal modal" style="overflow: auto;">
@@ -217,7 +237,7 @@
                 <div class="payment w3-row-padding w3-center w3-padding" style="display: none;">
 
                     <div class="w3-half">
-                        <div class="w3-card w3-container" style="height:350px" >
+                        <div class="w3-card w3-container" style="height:350px">
                             <h3>BASIC</h3><br>
                             <i class="fa fa-css3 w3-margin-bottom w3-text-theme" style="font-size:70px"></i>
                             <button class="btn blue" onclick="location.href='/student/pay/1'" type="submit">Buy Basic
@@ -242,16 +262,8 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div>
-                    </div>
-                    <div>
-                    </div>
                 </div>
                 <div class="w3-clear"></div>
-
-
-
                 <div class="w3-container w3-padding-16" style="bottom:0; position:absolute;">
                     <button class="close" type="button" class="w3-button w3-light-grey">Cancel</button>
                 </div>
@@ -260,15 +272,13 @@
 
 
 
-
         <div class="footer">
             <h4>ENJOY</h4>
             <p>Developed for CU Students</a></p>
         </div>
+
+
     </div>
-
-
-
 
 </body>
 
@@ -277,7 +287,7 @@
 {%block javascript%}
 <script src="{%static 'js/student.js'%}">
 
-    
+
 
 
 //     $('a.menu').bind('click', function(){

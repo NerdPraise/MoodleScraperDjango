@@ -90,6 +90,7 @@ a i {
     background-size: cover;
     padding-top: 10px;
     transition: 0.5s;
+    z-index: 10;
 }
 
 .blurbs {
@@ -156,11 +157,12 @@ h4 {
 }
 
 .footer {
-    margin: 12px 0 0 0;
-    text-align: center;
-    background-color: white;
+    margin: 12px auto 0 ;
     width: 100%;
+    background-color: white;
     bottom: 0;
+    position: relative;
+    text-align: center;
     padding: 15px 0;
     font-size: 14px;
     color: #777777;
