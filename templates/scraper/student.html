@@ -15,7 +15,7 @@
             <ul>
                 <li><a href="#" style="padding:10px 15px"><i class="pe-7s-graph"></i> DASHBOARD</a></li>
                 <li><a href="#" style="padding:10px 15px"><i class="pe-7s-note2"></i>TASKS</a></li>
-                <li><a href="#" style="padding:10px 15px"><i class="pe-7s-news-paper"></i>POSTS</a></li>
+                <li class="pay"><a href="#" style="padding:10px 15px"><i class="pe-7s-news-paper"></i>PAY</a></li>
                 <li><a href="#" style="padding:10px 15px"><i class="pe-7s-user"></i>USER PROFILE</a></li>
             </ul>
         </div>
@@ -205,12 +205,46 @@
 
 
         <div id="id01" class="w3-modal modal">
-            <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom" style="width:400px; height: 400px;">
+            <div class="w3-modal-content w3-round-large w3-card-4 w3-animate-zoom" style="width:600px; height: 450px;">
 
-                <div class="w3-center clear w3-padding-64">
+                <div class="w3-center clear w3-padding-64" style="display: none;">
                     <div class="lds-dual-ring"></div>
                     <div class="animate-bottom error-text"></div>
 
+                </div>
+                <div class="payment w3-row-padding w3-center w3-padding">
+
+                    <div class="w3-half">
+                        <div class="w3-card w3-container" style="height:350px">
+                            <h3>BASIC</h3><br>
+                            <i class="fa fa-css3 w3-margin-bottom w3-text-theme" style="font-size:70px"></i>
+                            <button class="btn blue" onclick="location.href='/student/pay/1'" type="submit">Buy Basic
+                                😘</button>
+                            <ul style="text-align: left;">
+                                <li>Records Attendance, at least twice a week</li>
+                                <li>Assign time for record</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w3-half">
+                        <div class="w3-card w3-container" style="height:350px">
+                            <h3>BIG BOSS</h3><br>
+                            <i class="fa fa-css3 w3-margin-bottom w3-text-theme" style="font-size:70px"></i>
+                            <button class="btn blue" onclick="location.href='/student/pay/2'" type="submit">Buy Big Boss
+                                😘</button>
+                            <ul style="text-align: left;">
+                                <li>Records Attendance, at least twice a week</li>
+                                <li>Assign time for record</li>
+                                <li>New Assignment/Quiz Notification</li>
+                                <li>Download Notes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                    </div>
+                    <div>
+                    </div>
                 </div>
                 <div class="w3-clear"></div>
 
@@ -222,12 +256,12 @@
             </div>
         </div>
 
-        
+
 
 
         <div class="footer">
             <h4>ENJOY</h4>
-            <button class="btn blue" onclick="location.href='{%url 'payment'%}'" type="submit">Buy Basic 😘</button>
+
             <p>Developed for CU Students</a></p>
         </div>
     </div>
@@ -261,7 +295,10 @@
     }
 
     $(".recBtn").click(function () {
+        $(".payment").css("display", "none")
         $(".modal").css("display", "block")
+        $(".clear").css("display", "block")
+        $(".lds-dual-ring").css("display", "inline-block")
         var btn_id = $(this).attr("id")
         btn_id = btn_id.toString()
         let course_url = $("p#" + btn_id).attr("course-url")
@@ -288,8 +325,17 @@
 
     $(".close").click(function () {
         $(".error-text").text("")
-        $(".lds-dual-ring").css("display", "inline-block")
+        $(".lds-dual-ring").css("display", "none")
         $(".modal").css("display", "none")
+        $(".clear").css("display", "none")
+        $(".payment").css("display", "none")
+
+    })
+
+    $(".pay").click(function () {
+        $(".modal").css("display", "block")
+        $(".payment").css("display", "block")
+
 
     })
 

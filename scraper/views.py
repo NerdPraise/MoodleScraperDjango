@@ -66,9 +66,7 @@ def student(request):
     user_courses = Course.objects.filter(user=user)
     user_course_one = [course for course in user_courses[::2]]
     user_course_two = [course for course in user_courses[1::2]]
-    last_login = user.last_login
-    last_login = last_login.strftime("%b %d, %Y")
-    print(last_login)
+    last_login = user.last_login.strftime("%b %d, %Y")
     context = {
         "course_one":user_course_one,
         "course_two":user_course_two,
@@ -142,14 +140,13 @@ def download_course(request, id):
 
 
 @login_required()
-def make_payment(request):
+def make_payment(request, id):
     user = request.user
     email = user.email
-    # if id == 1:
-    transaction = Transaction(50000, email)
-    # elif id == 2:
-    #     transaction = Transaction(70000, email)
-
+    if id == 1:
+        transaction = Transaction(50000, email)
+    elif id == 2:
+        transaction = Transaction(70000, email)
     transaction_manager = TransactionsManager()
     transaction = transaction_manager.initialize_transaction('STANDARD', transaction)
     return redirect(transaction.authorization_url)
